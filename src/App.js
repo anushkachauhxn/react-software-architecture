@@ -1,13 +1,18 @@
 import React from "react";
+import styled from "styled-components";
 import { Link, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Articles from "./pages/Articles";
 
+const BigHeading = styled.h1`
+  font-size: 64px;
+`;
+
 const App = () => {
   return (
     <div className="app">
-      <h1>SSR Example</h1>
+      <BigHeading>SSR Example</BigHeading>
       <nav>
         <ul>
           <li>
