@@ -4,6 +4,18 @@
 
 We render the React app JSX to HTML on the server instead of the client's browser.
 
+Command to run the server:
+
+```
+npx babel-node server.js
+```
+
+or
+
+```
+npx nodemon --exec npx babel-node server.js
+```
+
 #### Babel
 
 We'll use babel to run our server and transpile code.
