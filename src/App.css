@@ -4,3 +4,17 @@
   box-sizing: border-box;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
+
+body {
+  padding: 20px;
+  text-align: center;
+}
+
+nav ul {
+  padding: 20px;
+  display: flex;
+  column-gap: 48px;
+  justify-content: center;
+  font-weight: 500;
+  list-style: none;
+}
