@@ -27,17 +27,36 @@ We'll use babel to run our server and transpile code.
 
 ## Data Loading
 
+- When an api is used, the server renders the frontend except for the parts where we need to load data.
+
+- The API gets called after the app has been loaded from server. **We want to avoid this second trip.**
+
+- i.e. the server should load this data instead of the frontend.
+
+### Creating an API 🔴
+
 If we create an API route for loading data in the server, we will find that this data is loaded after the server has rendered the app.
-
-- The server renders the frontend except for the parts where we need to load data.
-
-- API is being called after the app has been loaded from server. **We want to avoid this second trip.**
-
-- i.e. the server should load this data when it renders the app.
 
 ```js
 app.get("/api/articles", (req, res) => {
-  const loadedArticles = articles;
+  ...
+
   res.json(loadedArticles);
+});
+```
+
+### Preloading data into the window 🟡
+
+- Send the data into the html window using `<script>` tags.
+
+```js
+app.get("/*", (req, res) => {
+  ...
+
+  res.send(
+    data.replace(
+      '<div id="root"></div>',
+      `<script>window.preloadedArticles = ${JSON.stringify(loadedArticles)}</script><div id="root">${reactApp}</div>`
+    ));
 });
 ```

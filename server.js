@@ -8,6 +8,8 @@ import fs from "fs";
 import App from "./src/App";
 import { articles } from "./data/data";
 
+global.window = {}; // to remove 'window does not exist' error
+
 const app = express();
 
 app.use(express.static("./build", { index: false }));
@@ -36,9 +38,17 @@ app.get("/*", (req, res) => {
       return res.status(500).send(err);
     }
 
+    const loadedArticles = articles;
+
     res.send(
       data
-        .replace('<div id="root"></div>', `<div id="root">${reactApp}</div>`)
+        .replace(
+          '<div id="root"></div>',
+          `<script>window.preloadedArticles = ${JSON.stringify(
+            loadedArticles
+          )}</script>
+          <div id="root">${reactApp}</div>`
+        )
         .replace("{{ styles }}", sheet.getStyleTags())
     );
   });
