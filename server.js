@@ -6,11 +6,19 @@ import { ServerStyleSheet } from "styled-components";
 import path from "path";
 import fs from "fs";
 import App from "./src/App";
+import { articles } from "./data/data";
 
 const app = express();
 
 app.use(express.static("./build", { index: false }));
 
+/* Data Loading */
+app.get("/api/articles", (req, res) => {
+  const loadedArticles = articles;
+  res.json(loadedArticles);
+});
+
+/* Rendering app from server */
 app.get("/*", (req, res) => {
   const sheet = new ServerStyleSheet();
 
