@@ -1,4 +1,5 @@
 import React, { useState, lazy, Suspense } from "react";
+import ErrorBoundary from "../components/ErrorBoundary";
 
 const One = lazy(() => import("../components/One"));
 const Two = lazy(() => import("../components/Two"));
@@ -16,9 +17,15 @@ const About = () => {
 
       {showComponents && (
         <Suspense fallback={<p>Loading components...</p>}>
-          <One />
-          <Two />
-          <Three />
+          <ErrorBoundary>
+            <One />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <Two />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <Three />
+          </ErrorBoundary>
         </Suspense>
       )}
     </>

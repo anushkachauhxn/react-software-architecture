@@ -240,3 +240,59 @@ _Note:_ Here, the components have to be exported by default for the import state
 - Whenever there is a large portion of the code that users will not be ssing in one go.
 - Generally, splitting is based on the pages/ components that the users view together.
 - For example: Route pages, components that appear on a button click.
+
+### Error Boundaries
+
+- Lazy loading introduces new error possibilities for our application.
+- Here, we are relying on the network to load our components.
+- If we have a network problem, our components could run into errors and our application could crash.
+
+- Error Boundaries are basically components that block off sections of the user interface that we expect may cause some kind of error.
+
+```js
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: null,
+    };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.log({ error, errorInfo });
+  }
+
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+
+  render() {
+    if (this.state.error) {
+      return <p>Uh Oh! Something went wrong.</p>;
+    }
+    return this.props.children;
+  }
+}
+```
+
+```js
+<Suspense fallback={<p>Loading components...</p>}>
+  <ErrorBoundary>
+    <One />
+  </ErrorBoundary>
+  <ErrorBoundary>
+    <Two />
+  </ErrorBoundary>
+  <ErrorBoundary>
+    <Three />
+  </ErrorBoundary>
+</Suspense>
+```
+
+If your app is crashing because of the error, you'll need production build.
+
+```
+npm run build
+npm install -g serve
+serve -s build
+```
