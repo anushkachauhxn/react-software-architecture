@@ -1,6 +1,6 @@
 # 🏙️ React: Software Architecture
 
-## Server Side Rendering
+# Server Side Rendering
 
 We render the React app JSX to HTML on the server instead of the client's browser.
 
@@ -206,4 +206,31 @@ npm install isomorphic-fetch
 
 ```js
 import "isomorphic-fetch";
+```
+
+# Code Splitting
+
+- Instead of delivering all React code to the client at once, we deliver it in pieces as needed.
+- This maximizes performance by letting us reduce the amount of code that the client side has to load on the first render.
+
+#### How to go about it?
+
+1. Create `lazy` components:
+
+```js
+const One = lazy(() => import("../components/One"));
+const Two = lazy(() => import("../components/Two"));
+const Three = lazy(() => import("../components/Three"));
+```
+
+_Note:_ Here, the components have to be exported by default for the import statements to work.
+
+2. Rendering them with `Suspense`:
+
+```js
+<Suspense fallback={<p>Loading components...</p>}>
+  <One />
+  <Two />
+  <Three />
+</Suspense>
 ```
