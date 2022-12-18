@@ -1,6 +1,6 @@
 # 🏙️ React: Software Architecture
 
-# Server Side Rendering
+# 1️⃣ Server Side Rendering
 
 We render the React app JSX to HTML on the server instead of the client's browser.
 
@@ -25,7 +25,7 @@ We'll use babel to run our server and transpile code.
 - _@babel/preset-env:_ standard prest for converting newer javascript syntax into older javascript syntax
 - _@babel/preset-react:_ preset for transpiling the JSX into actual javascript code
 
-# Data Loading
+# 2️⃣ Data Loading
 
 - When an api is used, the server renders the frontend except for the parts where we need to load data.
 
@@ -208,7 +208,7 @@ npm install isomorphic-fetch
 import "isomorphic-fetch";
 ```
 
-# Code Splitting
+# 3️⃣ Code Splitting
 
 - Instead of delivering all React code to the client at once, we deliver it in pieces as needed.
 - This maximizes performance by letting us reduce the amount of code that the client side has to load on the first render.
@@ -297,7 +297,7 @@ npm install -g serve
 serve -s build
 ```
 
-# Code Organisation
+# 4️⃣ Code Organisation
 
 ### Function vs Feature Based Organisation
 
@@ -356,3 +356,7 @@ src
 
 - Many same benefits as multi-repos, except code is technically in the same repo.
 - Used by large tech companies, including Google, Microsoft, Twitter.
+
+### ☑️ References:
+
+- LinkedIn Learning Course - [Link](https://www.linkedin.com/learning/react-software-architecture)
