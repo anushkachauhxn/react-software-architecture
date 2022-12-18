@@ -213,7 +213,7 @@ import "isomorphic-fetch";
 - Instead of delivering all React code to the client at once, we deliver it in pieces as needed.
 - This maximizes performance by letting us reduce the amount of code that the client side has to load on the first render.
 
-#### How to go about it?
+### How to go about it?
 
 1. Create `lazy` components:
 
@@ -234,3 +234,9 @@ _Note:_ Here, the components have to be exported by default for the import state
   <Three />
 </Suspense>
 ```
+
+### When to use code splitting?
+
+- Whenever there is a large portion of the code that users will not be ssing in one go.
+- Generally, splitting is based on the pages/ components that the users view together.
+- For example: Route pages, components that appear on a button click.
