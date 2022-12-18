@@ -1,10 +1,34 @@
-# 🏙️ React: Software Architecture
+# 🚁 React: Software Architecture
 
 # 1️⃣ Server Side Rendering
 
 We render the React app JSX to HTML on the server instead of the client's browser.
 
-Command to run the server:
+```js
+const app = express();
+
+app.use(express.static("./build", { index: false }));
+
+app.get("/*", async (req, res) => {
+  const reactApp = renderToString(
+    <StaticRouter location={req.url}>
+      <App />
+    </StaticRouter>
+  );
+
+  const templateFile = path.resolve("./build/index.html");
+  fs.readFile(templateFile, "utf8", (err, data) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    res.send(
+      data.replace('<div id="root"></div>', `<div id="root">${reactApp}</div>`)
+    );
+  });
+});
+```
+
+#### Command to run the server:
 
 ```
 npx babel-node server.js
@@ -24,6 +48,8 @@ We'll use babel to run our server and transpile code.
 
 - _@babel/preset-env:_ standard prest for converting newer javascript syntax into older javascript syntax
 - _@babel/preset-react:_ preset for transpiling the JSX into actual javascript code
+
+<hr><br>
 
 # 2️⃣ Data Loading
 
@@ -208,6 +234,8 @@ npm install isomorphic-fetch
 import "isomorphic-fetch";
 ```
 
+<hr><br>
+
 # 3️⃣ Code Splitting
 
 - Instead of delivering all React code to the client at once, we deliver it in pieces as needed.
@@ -297,6 +325,8 @@ npm install -g serve
 serve -s build
 ```
 
+<hr><br>
+
 # 4️⃣ Code Organisation
 
 ### Function vs Feature Based Organisation
@@ -356,6 +386,8 @@ src
 
 - Many same benefits as multi-repos, except code is technically in the same repo.
 - Used by large tech companies, including Google, Microsoft, Twitter.
+
+<hr><br>
 
 ### ☑️ References:
 
