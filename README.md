@@ -114,9 +114,7 @@ const contextObj = {
 ```js
 renderToString(
   <InitialDataContext.Provider value={contextObj}>
-    <StaticRouter location={req.url}>
-      <App />
-    </StaticRouter>
+    ... <App /> ...
   </InitialDataContext.Provider>
 );
 ```
@@ -130,11 +128,9 @@ delete contextObj._requests;
 ```
 
 ```js
-const reactApp = renderToString(
+renderToString(
   <InitialDataContext.Provider value={contextObj}>
-    <StaticRouter location={req.url}>
-      <App />
-    </StaticRouter>
+    ... <App /> ...
   </InitialDataContext.Provider>
 );
 ```
@@ -167,18 +163,22 @@ const useDataSSR = (resourceName, loadFunc) => {
 };
 ```
 
-Let's cover all cases.
+_Let's cover all cases._
 
-#### CASE 1: 2nd Render + Data is available
-
+<details>
+<summary>CASE 1: Render #2 + Data is available</summary>
+<br>
 Data gets loaded from the context `_data` and is returned to the component calling it.
 
 ```js
 const [data, setData] = useState(context._data[resourceName]);
 ```
 
-#### CASE 2: 1st Render
+</details>
 
+<details>
+<summary>CASE 2: Render #1</summary>
+<br>
 - We push the load function to `_requests`.
 - Add a `.then()` function to make sure that the result is stored in `_data` when the load function is executed.
 
@@ -192,8 +192,11 @@ if (context._isServerSide) {
 }
 ```
 
-#### CASE 3: 2nd Render + Data is not available
+</details>
 
+<details>
+<summary>CASE 3: Render #2 + Data is not available</summary>
+<br>
 - We execute the load function and return result as data.
 - We also store the result in `_data` to make it available for later.
 
@@ -206,33 +209,30 @@ else if (!data) {
 }
 ```
 
+</details>
+
 ### Using custom hook: `useDataSSR()`
 
-_Articles.js_
+_In Articles.js_
 
 ```js
 const articles = useDataSSR("articles", () => {
   console.log("No preloaded articles found, loading from server.");
-
   return fetch("http://localhost:8080/api/articles").then((res) => res.json());
 });
 ```
 
 **_Note:_**
 
-- Since the server side has to render the frontend, we need `fetch` to work on the server.
-- It only exists by default in the browser.
-
-- This is why we import an implementation of fetch in our backend: **isomorphic-fetch**.
-- We need the complete server URL for this: `http://localhost:8080/api/articles`
+- Since the server side has to render the frontend, we need `fetch` to work on the server. It only exists by default in the browser.
+- This is why we import an implementation of fetch in our backend.
 
 ```
 npm install isomorphic-fetch
-```
-
-```js
 import "isomorphic-fetch";
 ```
+
+- We need the complete server URL for this: `http://localhost:8080/api/articles`
 
 <hr><br>
 
@@ -265,15 +265,14 @@ _Note:_ Here, the components have to be exported by default for the import state
 
 ### When to use code splitting?
 
-- Whenever there is a large portion of the code that users will not be ssing in one go.
+- Whenever there is a large portion of the code that users will not be seeing in one go.
 - Generally, splitting is based on the pages/ components that the users view together.
 - For example: Route pages, components that appear on a button click.
 
 ### Error Boundaries
 
 - Lazy loading introduces new error possibilities for our application.
-- Here, we are relying on the network to load our components.
-- If we have a network problem, our components could run into errors and our application could crash.
+- We are relying on the network to load our components. So, if we have a network problem, our components could run into errors and our application could crash.
 
 - Error Boundaries are basically components that block off sections of the user interface that we expect may cause some kind of error.
 
@@ -285,15 +284,12 @@ class ErrorBoundary extends Component {
       error: null,
     };
   }
-
   componentDidCatch(error, errorInfo) {
     console.log({ error, errorInfo });
   }
-
   static getDerivedStateFromError(error) {
     return { error };
   }
-
   render() {
     if (this.state.error) {
       return <p>Uh Oh! Something went wrong.</p>;
@@ -308,12 +304,7 @@ class ErrorBoundary extends Component {
   <ErrorBoundary>
     <One />
   </ErrorBoundary>
-  <ErrorBoundary>
-    <Two />
-  </ErrorBoundary>
-  <ErrorBoundary>
-    <Three />
-  </ErrorBoundary>
+  ...
 </Suspense>
 ```
 
