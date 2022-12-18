@@ -1,9 +1,10 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import styled from "styled-components";
 import { Link, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Articles from "./pages/Articles";
+
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
+const Articles = lazy(() => import("./pages/Articles"));
 
 const BigHeading = styled.h1`
   font-size: 64px;
@@ -27,11 +28,13 @@ const App = () => {
         </ul>
       </nav>
       <main>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/articles" element={<Articles />} />
-        </Routes>
+        <Suspense fallback={<p>Loading...</p>}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/articles" element={<Articles />} />
+          </Routes>
+        </Suspense>
       </main>
     </div>
   );
