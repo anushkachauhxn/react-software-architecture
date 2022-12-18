@@ -10,7 +10,7 @@ const Articles = () => {
   });
 
   return (
-    <div>
+    <>
       <h1>Articles</h1>
       {articles &&
         articles.map((article) => (
@@ -20,7 +20,7 @@ const Articles = () => {
             <p>{article.body}</p>
           </div>
         ))}
-    </div>
+    </>
   );
 };
 
