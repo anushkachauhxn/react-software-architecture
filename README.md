@@ -296,3 +296,63 @@ npm run build
 npm install -g serve
 serve -s build
 ```
+
+# Code Organisation
+
+### Function vs Feature Based Organisation
+
+- **Function Based:** The highest level folders in the src directory are based on the functions they provide.
+
+```
+src
+└───hooks
+└───network
+└───pages
+└───reducers
+└───util
+```
+
+- **Feature Based:** The highest level folders in the src directory are based on the features they are used in.
+- This works better for large scale applications where different developers work on different features.
+
+```
+src
+└───articles
+└───sign-ups
+└───subscriptions
+```
+
+## Monoliths, Multi-repos and Monorepos
+
+#### Monoliths:
+
+- All the project code is included in a single codebase.
+- It generally has to be modified and deployed all at once.
+
+<br>
+
+- Simple at first. Usually the default.
+- Can become unmanageable very quickly.
+- Ideal for very small teams working on short-term projects.
+
+#### Multi-repos:
+
+- The project code is separated into multiple codebases.
+- Each codebase can be worked on and deployed _independently_.
+
+<br>
+
+- Add some overhead for setup.
+- Make the deployment process more complex.
+- Allo independent versioning of different parts.
+- Generally better for companies with fairly isolated teams.
+
+#### Monorepos:
+
+- Mix of both.
+- Single codebase + Organised such that each piece is largely independent.
+
+<br>
+
+- Many same benefits as multi-repos, except code is technically in the same repo.
+- Used by large tech companies, including Google, Microsoft, Twitter.
